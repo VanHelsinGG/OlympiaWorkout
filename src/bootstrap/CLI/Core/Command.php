@@ -3,6 +3,7 @@
 namespace OlympiaWorkout\bootstrap\CLI\Core;
 
 use Exception;
+use OlympiaWorkout\bootstrap\Kernel\Enums\Color;
 
 class Command
 {

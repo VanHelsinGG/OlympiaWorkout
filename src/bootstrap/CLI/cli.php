@@ -3,32 +3,32 @@
 namespace OlympiaWorkout\bootstrap\CLI;
 
 use Exception;
+use OlympiaWorkout\bootstrap\CLI\Core\CLI;
 use OlympiaWorkout\bootstrap\CLI\Core\Command;
 
 require_once realpath(__DIR__ . '/../../../vendor/autoload.php');
 
-$args = $argv;
-array_shift($args);
+$args = array_slice($argv, 1);
 
-if ($args[0] === 'help') {
-    $command = 'Help';
-    $group   = 'Sys';
-} else {
-    $commandExploded =   explode(':', $args[0])            ?? null;
-    $group           =   $commandExploded[0]               ?? null;
-    $command         =   $commandExploded[1]               ?? null;
+$command = 'Help';
+$group   = 'Sys';
+
+if (!empty($args) && $args[0] !== 'help') {
+    if (strpos($args[0], ':') !== false) {
+        [$group, $command] = array_pad(explode(':', $args[0]), 2, null);
+    } else {
+        $command = $args[0];
+    }
 }
 
-$params = array_slice($args, 1);
-
-if (!file_exists(__DIR__ . "/Commands/$group/$command.php")) {
-    echo "[CLI] Command Error: '$command' not found.\n";
-    die(1);
+$commandPath = __DIR__ . "/Commands/$group/$command.php";
+if (!file_exists($commandPath)) {
+    CLI::error("Command '$command' not found in group '$group'");
 }
 
 try {
+    $params = array_slice($args, 1);
     Command::run($command, $group, $params);
 } catch (Exception $e) {
-    echo "[CLI] {$e->getMessage()}.\n";
-    die(1);
+    CLI::error("Error: {$e->getMessage()}");
 }

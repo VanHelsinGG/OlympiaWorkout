@@ -5,7 +5,7 @@ namespace OlympiaWorkout\DB\Migrations;
 use OlympiaWorkout\DB\Blueprint\Blueprint;
 use OlympiaWorkout\DB\Blueprint\Table;
 
-class CreateUser
+class CreateUsr
 {
     private $tableName = 'user';
 

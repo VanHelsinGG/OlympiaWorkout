@@ -1,6 +1,14 @@
 <?php
 namespace OlympiaWorkout;
 
+use OlympiaWorkout\bootstrap\Router\Request;
+use OlympiaWorkout\bootstrap\Router\Router;
+
 require_once __DIR__ . "/../vendor/autoload.php";
 
-fazer uma forma mais facil de mexer com cores
+require_once __DIR__ . "/Routes/routes.php";
+
+$request = new Request();
+Router::resolve($request);
+
+resolver bug de router
